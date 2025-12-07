@@ -1,0 +1,644 @@
+/* -----------------------------------------------------------
+   GLOBALS — Tailwind Layer Imports
+----------------------------------------------------------- */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------------------------------------
+   CSS VARIABLES — Light Theme (Default)
+----------------------------------------------------------- */
+
+:root {
+  /* Layout tokens */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: 32px;
+
+  --transition-fast: 0.18s ease-out;
+  --transition-med: 0.3s ease-out;
+
+  /* Light theme backgrounds */
+  --bg-body: #f9fbff;
+  --bg-hero: radial-gradient(circle at 20% 10%, #ffffff 0%, #eef3ff 50%, #e6ecff 100%);
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --bg-elevated: rgba(255, 255, 255, 0.75);
+
+  /* Text colors */
+  --text-main: #0d1b2a;
+  --text-muted: #5b6475;
+  --text-soft: #8a94a7;
+
+  /* Accent colors */
+  --accent-primary: #2563eb;
+  --accent-secondary: #a855f7;
+  --accent-hot: #ec4899;
+
+  /* Shadows & borders */
+  --shadow-soft: 0 25px 70px rgba(0, 0, 0, 0.06);
+  --shadow-soft-light: 0 12px 30px rgba(0, 0, 0, 0.05);
+
+  --border-subtle: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+
+/* -----------------------------------------------------------
+   DARK THEME
+   Next-themes switches this using <html class="dark">
+----------------------------------------------------------- */
+
+html.dark {
+  --bg-body: #020617;
+  --bg-hero: radial-gradient(circle at top left, #0f172a 0, #020617 55%, #000000 100%);
+  --bg-card: rgba(15, 23, 42, 0.96);
+  --bg-elevated: rgba(15, 23, 42, 0.85);
+
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-soft: #6b7280;
+
+  --accent-primary: #60a5fa;
+  --accent-secondary: #c4b5fd;
+  --accent-hot: #fb7185;
+
+  --shadow-soft: 0 25px 70px rgba(0, 0, 0, 0.8);
+  --shadow-soft-light: 0 18px 35px rgba(15, 23, 42, 0.7);
+
+  --border-subtle: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+
+/* -----------------------------------------------------------
+   BASE RESET
+----------------------------------------------------------- */
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-inter), sans-serif;
+  background: var(--bg-body);
+  color: var(--text-main);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* -----------------------------------------------------------
+   CONTAINER UTILITY
+----------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+
+/* -----------------------------------------------------------
+   BACKGROUND ORBS + PARTICLES
+----------------------------------------------------------- */
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--bg-hero);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.8;
+  mix-blend-mode: screen;
+  transition: transform 0.2s linear;
+}
+
+.orb-lg {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.6), transparent 70%);
+  top: -140px;
+  left: -120px;
+}
+
+.orb-md {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.55), transparent 70%);
+  bottom: -160px;
+  right: -120px;
+}
+
+.orb-sm {
+  width: 340px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.5), transparent 70%);
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+
+/* -----------------------------------------------------------
+   NAVBAR
+----------------------------------------------------------- */
+
+.navbar {
+  @apply sticky top-0 z-40 flex items-center justify-between py-4 backdrop-blur-lg transition-all;
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+html.dark .navbar {
+  background: rgba(2, 6, 23, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 3D Cube Logo */
+.cube-logo-wrapper {
+  width: 32px;
+  height: 32px;
+  perspective: 800px;
+  position: relative;
+}
+
+.cube-3d {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateCube 8s infinite linear;
+  transition: animation-duration 0.3s ease;
+}
+
+.cube-logo-wrapper:hover .cube-3d {
+  animation-duration: 2s;
+}
+
+@keyframes rotateCube {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.cube-face {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+.cube-front {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(96, 165, 250, 0.6));
+  transform: translateZ(16px);
+}
+
+.cube-back {
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.7), rgba(168, 85, 247, 0.5));
+  transform: rotateY(180deg) translateZ(16px);
+}
+
+.cube-right {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.7), rgba(251, 113, 133, 0.5));
+  transform: rotateY(90deg) translateZ(16px);
+}
+
+.cube-left {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.7), rgba(96, 165, 250, 0.5));
+  transform: rotateY(-90deg) translateZ(16px);
+}
+
+.cube-top {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(129, 140, 248, 0.5));
+  transform: rotateX(90deg) translateZ(16px);
+}
+
+.cube-bottom {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(192, 132, 252, 0.5));
+  transform: rotateX(-90deg) translateZ(16px);
+}
+
+/* Nav Links with enhanced hover */
+.nav-link {
+  @apply text-sm font-medium relative;
+  color: #64748b;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html.dark .nav-link {
+  color: #cbd5f5;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: var(--accent-primary);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Theme Toggle Animation */
+.theme-toggle {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:active {
+  transform: rotate(180deg);
+}
+
+.theme-toggle i {
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+
+
+/* -----------------------------------------------------------
+   HERO SECTION
+----------------------------------------------------------- */
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.hero-title {
+  font-size: 3.3rem;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.hero-sub {
+  @apply text-base max-w-xl;
+  color: var(--text-muted);
+}
+
+.hero-actions a {
+  @apply inline-flex items-center gap-2 font-semibold rounded-full text-sm px-6 py-3 transition-all;
+}
+
+
+/* -----------------------------------------------------------
+   BUTTONS
+----------------------------------------------------------- */
+
+.btn-primary {
+  background: linear-gradient(135deg,
+      var(--accent-primary),
+      var(--accent-secondary),
+      var(--accent-hot));
+  color: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-main);
+}
+
+html.dark .btn-outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e5e7eb;
+}
+
+
+/* -----------------------------------------------------------
+   GLASS CARDS
+----------------------------------------------------------- */
+
+.glass-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: var(--border-subtle);
+  box-shadow: var(--shadow-soft-light);
+  backdrop-filter: blur(18px);
+  padding: 1.5rem;
+  /* p-6 */
+  transition: all var(--transition-med);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+  border-color: rgba(37, 99, 235, 0.35);
+}
+
+
+/* -----------------------------------------------------------
+   CHAT DEVICE (Hero)
+----------------------------------------------------------- */
+
+.device {
+  width: 340px;
+  border-radius: 32px;
+  padding: 1rem;
+  background: var(--bg-elevated);
+  border: var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+
+.device-screen {
+  border-radius: 22px;
+  padding: 1rem;
+  min-height: 220px;
+  background: var(--bg-card);
+  border: var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.chat-bubble {
+  border-radius: 18px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.78rem;
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background: var(--accent-primary);
+  color: white;
+}
+
+.chat-bubble.bot {
+  background: rgba(240, 243, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+
+/* -----------------------------------------------------------
+   SECTIONS
+----------------------------------------------------------- */
+
+section {
+  @apply py-12;
+}
+
+@media (max-width: 768px) {
+  section {
+    @apply py-10;
+  }
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl font-bold mb-3;
+}
+
+.section-sub {
+  @apply text-base text-gray-500 max-w-2xl mb-12;
+  line-height: 1.6;
+}
+
+html.dark .section-sub {
+  color: #94a3b8;
+}
+
+
+/* -----------------------------------------------------------
+   CONTACT FORM
+----------------------------------------------------------- */
+
+.contact-grid {
+  @apply grid gap-8 rounded-3xl p-8;
+  background: var(--bg-card);
+  border: var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-input {
+  @apply w-full rounded-lg px-4 py-2 text-sm border transition-all;
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.contact-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
+  background: white;
+}
+
+html.dark .contact-input {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+
+/* -----------------------------------------------------------
+   FOOTER
+----------------------------------------------------------- */
+
+.footer {
+  @apply py-10 mt-12 border-t text-sm;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+html.dark .footer {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+
+/* -----------------------------------------------------------
+   SCROLL REVEAL (Fade-up)
+----------------------------------------------------------- */
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* -----------------------------------------------------------
+   RESPONSIVE TWEAKS
+----------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+    gap: 2rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+  }
+
+  .device {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .device-screen {
+    min-height: 280px;
+  }
+
+  .chat-bubble {
+    font-size: 0.8rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .glass-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .cube-logo-wrapper {
+    width: 28px;
+    height: 28px;
+  }
+
+  .cube-face {
+    width: 28px;
+    height: 28px;
+  }
+
+  .cube-front,
+  .cube-back,
+  .cube-right,
+  .cube-left,
+  .cube-top,
+  .cube-bottom {
+    transform-origin: center;
+  }
+
+  .cube-front {
+    transform: translateZ(14px);
+  }
+
+  .cube-back {
+    transform: rotateY(180deg) translateZ(14px);
+  }
+
+  .cube-right {
+    transform: rotateY(90deg) translateZ(14px);
+  }
+
+  .cube-left {
+    transform: rotateY(-90deg) translateZ(14px);
+  }
+
+  .cube-top {
+    transform: rotateX(90deg) translateZ(14px);
+  }
+
+  .cube-bottom {
+    transform: rotateX(-90deg) translateZ(14px);
+  }
+}
+
+/* Chat bubble slide-in animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s ease-out forwards;
+}
+
+html.dark .chat-bubble.bot {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+}
